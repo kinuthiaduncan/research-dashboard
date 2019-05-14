@@ -71,7 +71,7 @@
 				<span class="label">
 					<small>Persistent rounded corners </small>
 					<el-tooltip effect="dark" placement="left-start">
-						<div slot="content">You can appreciate this effect on pages that use the "virtual scroll".<br/>Example: Dashboard, Calendar, Typography, Profile, etc...</div>
+						<div slot="content">You can appreciate this effect on pages that use the "virtual scroll".</div>
 						<i class="mdi mdi-information-outline"></i>
 					</el-tooltip>
 				</span>
@@ -79,30 +79,6 @@
 					<el-radio-button :label="true">on</el-radio-button>
 					<el-radio-button :label="false">off</el-radio-button>
 				</el-radio-group>
-			</div>
-
-			<div class="selector-box">
-				<span class="label">Themes</span>
-				<a class="theme-box" href="https://pragmatic-theme-a.ddmweb.it/">
-					<div class="color" style="background:#ffffff"></div>
-					<div class="color" style="background:#000000"></div>
-					<div class="color" style="background:#D7195D"></div>
-				</a>
-				<a class="theme-box" href="https://pragmatic-theme-b.ddmweb.it/">
-					<div class="color" style="background:#8794A3"></div>
-					<div class="color" style="background:#ffffff"></div>
-					<div class="color" style="background:#52F17E"></div>
-				</a>
-				<a class="theme-box" href="https://pragmatic-theme-c.ddmweb.it/">
-					<div class="color" style="background:#191d24"></div>
-					<div class="color" style="background:#ffffff"></div>
-					<div class="color" style="background:#52F17E"></div>
-				</a>
-				<a class="theme-box" href="https://pragmatic-theme-d.ddmweb.it/">
-					<div class="color" style="background:#2B80F6"></div>
-					<div class="color" style="background:#ffffff"></div>
-					<div class="color" style="background:#1B2738"></div>
-				</a>
 			</div>
 		</div>
 	</div>

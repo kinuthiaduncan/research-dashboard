@@ -10,6 +10,7 @@ import Register from '../views/pages/authentication/Register.vue'
 import ForgotPassword from '../views/pages/authentication/ForgotPassword.vue'
 import Profile from '../views/pages/Profile.vue'
 import NotFound from '../views/pages/NotFound.vue'
+import Users from '../components/Admin/Users.vue'
 
 //ui
 
@@ -34,7 +35,17 @@ const router = new Router({
 				tags: ['app']
 			}
 		},
-
+        {
+            path: '/users',
+            name: 'users',
+            component: Users,
+            meta: {
+                auth: true,
+                layout: layouts.navLeft,
+                searchable: true,
+                tags: ['pages']
+            }
+        },
 		element,
 		{
 			path: '/profile',
@@ -74,7 +85,7 @@ const router = new Router({
 		{ 
 			path: '/logout',
 			beforeEnter (to, from, next) {
-				auth.logout()
+				auth.logout();
 				next({path:'/login'})
 			}
 		},

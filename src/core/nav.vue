@@ -13,30 +13,24 @@
 		<el-menu-item index="/dashboard">
 			<i class="mdi mdi-gauge"></i><span slot="title">Dashboard</span>
 		</el-menu-item>
-
-
 		<div class="el-menu-item-group__title"><span>Pages</span></div>
 		<el-menu-item index="/profile">
 			<i class="mdi mdi-account-card-details"></i><span slot="title">Profile</span>
 		</el-menu-item>
 		<el-submenu index="authentication" popper-class="main-navigation-submenu">
 			<template slot="title">
-				<i class="mdi mdi-lock"></i><span>Authentication</span>
+				<i class="mdi mdi-lock"></i><span>Admin</span>
 			</template>
-			<el-menu-item index="/logout">
-				<span slot="title">Login</span>
+			<el-menu-item index="/users">
+				<span slot="title">Users</span>
 			</el-menu-item>
-			<el-menu-item index="/register">
-				<span slot="title">Register</span>
-			</el-menu-item>
-			<el-menu-item index="/forgot-password">
-				<span slot="title">Forgot Password</span>
-			</el-menu-item>
+			<!--<el-menu-item index="/register">-->
+				<!--<span slot="title">Register</span>-->
+			<!--</el-menu-item>-->
+			<!--<el-menu-item index="/forgot-password">-->
+				<!--<span slot="title">Forgot Password</span>-->
+			<!--</el-menu-item>-->
 		</el-submenu>
-		<el-menu-item index="/404">
-			<i class="mdi mdi-alert-octagon"></i><span slot="title">404</span>
-		</el-menu-item>
-
 	</el-menu>	
 </template>
 
@@ -74,12 +68,10 @@ export default {
 		this.setLink(this.$router.currentRoute.path)
 		this.$router.afterEach((to, from) => {
 			this.setLink(this.$router.currentRoute.path)
-			//console.log('afterEach', to, from)
 		})
-		//console.log('this.$router.currentRoute.path', this.$router.currentRoute.path)
 	},
 	mounted() {
-		//console.log('nav component mounted')				
+
 	}
 }
 </script>

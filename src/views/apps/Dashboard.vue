@@ -8,18 +8,15 @@
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
 								<i class="widget-icon mdi mdi-account-multiple accent-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-up success-text mr-10"></i><strong class="accent-text">16%</strong></span>
-								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Users</div>
-								<h2 class="m-0 text-truncate">4,523</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Participants</div>
+								<h2 class="m-0 text-truncate">{{participantCount}}</h2>
 							</div>
 						</div>
 					</div>
 
-					<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80 }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 11, 12, 13, 12, 12, 14].toString()"/>
+					<!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80 }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 11, 12, 13, 12, 12, 14].toString()"/>-->
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -29,18 +26,16 @@
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
 								<i class="widget-icon mdi mdi-eye accent-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-up success-text mr-10"></i><strong class="accent-text">11%</strong></span>
-								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Views</div>
-								<h2 class="m-0 text-truncate">2,523</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Age groups</div>
 							</div>
 						</div>
 					</div>
-
-					<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#c6d9fd"] }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 7, 6, 5, 12, 10, 9].toString()"/>
+					<div class="age-groups">
+						<p v-for="ageGroup in ageGroups">{{ageGroup.join(": ")}}</p>
+					</div>
+					<!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#c6d9fd"] }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 7, 6, 5, 12, 10, 9].toString()"/>-->
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -50,18 +45,15 @@
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
 								<i class="widget-icon mdi mdi-account-convert success-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-neutral info-text mr-10"></i><strong class="success-text">1%</strong></span>
-								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Conversion</div>
-								<h2 class="m-0 text-truncate">9,832</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Internet use</div>
+								<h2 class="m-0 text-truncate"></h2>
 							</div>
 						</div>
 					</div>
 
-					<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80, fill: "#56f19a", stroke: "#67C23A" }' :data="[10, 7, 8, 5, 4, 9, 3, 4, 6, 5, 4, 4, 2, 4, 5, 9, 13, 12, 12, 14].toString()"/>
+					<!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80, fill: "#56f19a", stroke: "#67C23A" }' :data="[10, 7, 8, 5, 4, 9, 3, 4, 6, 5, 4, 4, 2, 4, 5, 9, 13, 12, 12, 14].toString()"/>-->
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -71,18 +63,15 @@
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
 								<i class="widget-icon mdi mdi-cash-multiple success-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-neutral info-text mr-10"></i><strong class="success-text">0%</strong></span>
-								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Revenue</div>
-								<h2 class="m-0 text-truncate">6,364</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Tech level</div>
+								<h2 class="m-0 text-truncate"></h2>
 							</div>
 						</div>
 					</div>
 
-					<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#56f19a"] }' :data="[6, 5, 4, 3, 5, 3, 4, 5, 6, 5, 4, 2, 3, 8, 7, 6, 5, 2, 1, 5].toString()"/>
+					<!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#56f19a"] }' :data="[6, 5, 4, 3, 5, 3, 4, 5, 6, 5, 4, 2, 3, 8, 7, 6, 5, 2, 1, 5].toString()"/>-->
 				</div>
 			</el-col>
 		</el-row>
@@ -161,70 +150,6 @@
 				</div>
 			</el-col>
 		</el-row>
-
-		<el-row class="mt-0" :gutter="30">
-			<el-col :xs="24" :sm="12" :md="10" :lg="8" :xl="6">
-				<vue-scroll class="card-base card-shadow--medium p-20 mb-30" style="height:660px">
-					<h2 class="mv-0 animated fadeInDown">Activities</h2>
-					<h4 class="mt-5 mb-40 animated slideInUp"><span class="o-050">Last activity:</span><strong class="ml-10 o-070">2 days ago</strong></h4>
-
-					<timeline timeline-theme="lightblue">
-						<timeline-title>2 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Lorem ipsum dolor sit amet conse ctetur which ascing elit users.
-						</timeline-item>
-						<timeline-item :hollow="true">
-							Donec dapibus molestie lacus ac pellentesque.
-						</timeline-item>
-						<timeline-title>3 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Mauris vitae posuere arcu. Donec porta ex sed hendrerit euismod.
-						</timeline-item>
-						<timeline-title>4 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Suspendisse faucibus sem a ex porta.
-						</timeline-item>
-					</timeline>
-				</vue-scroll>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="14" :lg="16" :xl="18">
-				<div class="card-base card-shadow--medium p-20 mb-30" style="height:295px">
-					<div class="flex justify-space-between">
-						<div>
-							<h2 class="mv-0 animated fadeInDown">Report</h2>
-							<h4 class="mt-5 mb-40 o-050 animated slideInUp">This week</h4>
-						</div>
-						<div class="radio-switcher">
-							<el-radio-group v-model="radio2">
-								<el-radio-button label="Day"></el-radio-button>
-								<el-radio-button label="Week"></el-radio-button>
-								<el-radio-button label="Month"></el-radio-button>
-							</el-radio-group>
-						</div>
-					</div>
-
-					<h4 class="mb-0 mt-0">New Users</h4>
-					<el-progress :percentage="100" status="success"></el-progress>
-					<h4 class="mb-0">Views</h4>
-					<el-progress :percentage="70"></el-progress>
-					<h4 class="mb-0">Conversions</h4>
-					<el-progress :percentage="20" status="exception"></el-progress>
-				</div>
-
-				<div class="card-base card-shadow--medium flex column mb-30 pv-20 bg-primary" style="height:295px;">
-					<div class="ph-20">
-						<h2 class="white-text mv-0 animated fadeInDown">Visitors</h2>
-						<h4 class="white-text mt-5 mb-0 o-050 animated slideInUp">Jan - Jul</h4>
-					</div>
-					<div class="box grow ph-20">
-						<div style="width:100%; height:100%; position:relative;">
-							<bulma-chart :type="'bar'" :data="data3" :options="options3"></bulma-chart>
-						</div>
-					</div>
-				</div>
-			</el-col>
-		</el-row>
-	
 	</vue-scroll>
 </template>
 
@@ -239,7 +164,7 @@ export default {
 			asyncComponent: 'peity',
 			asyncChart1: true,
 			asyncChart2: true,
-			chart1: null,
+            useAgeGroupChart: null,
 			chart2: null,
 			resized: false,
 			list: [
@@ -314,7 +239,9 @@ export default {
             participantCount: null,
             age_group_url: "dashboard/group_by_age",
             ageGroups: [],
-            gender_age_group_url: "focus_groups/gender_age_group"
+            gender_age_group_url: "focus_groups/gender_age_group",
+            internet_use_age_url: "focus_groups/use_age_group",
+            internetUseAgeGroup: []
 		}
 	},
 	computed: {
@@ -325,8 +252,7 @@ export default {
 	methods: {
         getAllParticipants: function () {
             this.$http.get(this.all_participants).then(response => {
-                this.participantCount = response.data;
-                console.log(this.participantCount);
+                this.participantCount = response.data.participantCount;
             }).catch(error => {
                 console.log(error);
             })
@@ -334,14 +260,20 @@ export default {
         getAgeGroups: function () {
             this.$http.get(this.age_group_url).then(response => {
                 this.ageGroups = response.data.ageGroups;
-                console.log(this.ageGroups);
             }).catch(error => {
                 console.log(error);
             });
         },
         genderAgeGroups: function () {
             this.$http.get(this.gender_age_group_url).then(response => {
-                console.log(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+        },
+        internetUsageAgeGroups: function() {
+            this.$http.get(this.internet_use_age_url).then(response => {
+                this.internetUseAgeGroup = response.data.data;
+                this.initChart1(this.internetUseAgeGroup);
             }).catch(error => {
                 console.log(error);
             })
@@ -365,33 +297,37 @@ export default {
 			//ie fix
 			for(let i=0; i<peityEl.length; i++) {peityEl[i].parentNode.removeChild(peityEl[i])}
 		},
-		initChart1() {
-			this.chart1 = echarts.init(document.getElementById('chart1'))
-
+		initChart1(data) {
+			this.useAgeGroupChart  = echarts.init(document.getElementById('chart1'));
+			console.log(data);
 			// Generate data
 			let category = [];
 			let dottedBase = +new Date();
 			let lineData = [];
-			let barData = [];
+			let barData = {
+			    shopping: [],
+                education: [],
+                entertainment: [],
+                social: [],
+                news: [],
+                work: []
+            };
 
-			for (let i = 0; i < 6; i++) {
-				let date = new Date(dottedBase += 3600 * 24 * 1000);
-				category.push([
-					date.getFullYear(),
-					date.getMonth() + 1,
-					date.getDate()
-				].join('-'));
-				let b = Math.random() * 200;
-				let d = Math.random() * 200;
-				barData.push(parseInt(b))
-				lineData.push(parseInt(d + b));
-			}
+			for(let i = 0; i < data.length; i++) {
+			    category.push((data[i][0]));
+                barData.shopping.push(parseInt(data[i][1]));
+                barData.education.push(parseInt(data[i][2]));
+                barData.entertainment.push(parseInt(data[i][3]));
+                barData.social.push(parseInt(data[i][4]));
+                barData.news.push(parseInt(data[i][5]));
+                barData.work.push(parseInt(data[i][6]));
+            }
+            console.log(barData);
 
-
-			this.chart1.setOption({
+			this.useAgeGroupChart.setOption({
 				//backgroundColor: '#0f375f',
 				grid: {
-					show: false,
+					show: true,
 					left: '20px',
 					right: '50px',
 					bottom: '20px',
@@ -405,7 +341,7 @@ export default {
 					}
 				},
 				legend: {
-					show: false,
+					show: true,
 					data: ['line', 'bar'],
 					textStyle: {
 						color: '#ccc'
@@ -413,7 +349,7 @@ export default {
 				},
 				xAxis: {
 					data: category,
-					boundaryGap : false,
+					boundaryGap : true,
 					axisLine: {
 						lineStyle: {
 							color: 'rgba(255,255,255,0.5)'
@@ -421,7 +357,7 @@ export default {
 					}
 				},
 				yAxis: {
-					splitLine: {show: false},
+					splitLine: {show: true},
 					axisLine: {
 						lineStyle: {
 							color: 'rgba(255,255,255,0.5)'
@@ -440,7 +376,7 @@ export default {
 							color: '#fff'
 						},
 						itemStyle: {
-							color: '#fff', 
+							color: '#fff',
 							borderColor: '#5f8fdf',
 							borderWidth: 3
 						},
@@ -450,9 +386,9 @@ export default {
 						animationDuration: 2800,
 						animationEasing: 'cubicInOut',
 						data: lineData
-					}, 
+					},
 					{
-						name: 'Data B',
+						name: 'Focus group data',
 						type: 'bar',
 						barWidth: 10,
 						itemStyle: {
@@ -488,7 +424,7 @@ export default {
 						},
 						z: -12,
 						data: lineData
-					},*/ 
+					},*/
 					{
 						name: 'Data C',
 						type: 'pictorialBar',
@@ -756,15 +692,15 @@ export default {
 		}
 	},
 	mounted() {
-		this.initChart1();
 		this.initChart2();
 		this.genderAgeGroups();
 		this.getAgeGroups();
 		this.getAllParticipants();
+		this.internetUsageAgeGroups();
 	},
 	beforeDestroy() {
-		this.destroyChart1()
-		this.destroyChart2()
+		this.destroyChart1();
+		this.destroyChart2();
 	},
 	components: {
 		Timeline,
@@ -850,7 +786,6 @@ export default {
 
 <style lang="scss">
 .page-dashboard {
-
 	.widget {
 		.peity {
 			position: absolute;
@@ -886,6 +821,12 @@ export default {
 		}
 	}
 }
+	.age-groups{
+		text-align: center;
+		p{
+			line-height: 1;
+		}
+	}
 </style>
 
 

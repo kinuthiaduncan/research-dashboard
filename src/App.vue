@@ -155,7 +155,7 @@ export default {
 	background: $background-color;
 
 	.container {
-		overflow: hidden;
+		overflow: auto;
 		
 		.header {
 			height: 60px;
@@ -167,7 +167,7 @@ export default {
 
 		.main {
 			position: relative;
-			overflow: hidden;
+			overflow: auto;
 			padding: 0 30px;
 		}
 

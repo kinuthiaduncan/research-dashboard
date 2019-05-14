@@ -2,13 +2,6 @@ import 'es6-promise/auto'
 
 window.Vue = require('vue');
 
-window.axios = require('axios');
-
-window.axios.defaults.headers.common = {
-    'Authorization': 'Bearer '+localStorage.getItem("token"),
-    'X-Requested-With': 'XMLHttpRequest'
-};
-
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 Vue.http.options.emulateJSON = true;

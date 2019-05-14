@@ -2,7 +2,6 @@
 	<vue-scroll class="page-profile" id="affix-container">
 		<div class="card-base card-shadow--medium identity" id="boundary">
 			<div class="cover"></div>
-			<!--<div class="username" v-affix="{parentid: 'affix-container', boundaryid: '', delay:600, offset:0, enable:() => affixEnabled}">-->
 			<div class="username">
 				<div class="cover-small"></div>
 				<div class="avatar-small"><img src="@/assets/images/avatar-2.jpg" alt="avatar"></div>
