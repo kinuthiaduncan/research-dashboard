@@ -12,7 +12,6 @@ Vue.http.options.root = 'http://backend.test/api';
 import _ from 'lodash';
 import moment from 'moment-timezone';
 import Vue from 'vue';
-import VueI18n from 'vue-i18n';
 import Element from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 import Vuebar from 'vuebar';
@@ -24,36 +23,27 @@ import 'highlight.js/styles/color-brewer.css';
 import VueResize from 'vue-resize';
 import 'vue-resize/dist/vue-resize.css';
 import VueFloatLabel from 'vue-float-label';
-import 'v2-table/dist/index.css';
 import { StatusIndicator } from 'vue-status-indicator';
 import 'vue-status-indicator/styles.css';
-import 'chartist/dist/chartist.css';
-import BulmaChart from 'vue-bulma-chartjs';
-import Peity from 'vue-peity';
 import VuePerfectScrollbar from './components/vue-ps';
-
 import './assets/scss/element-variables.scss';
 import './assets/scss/global.scss';
 import 'flex.box';
 import 'animate.css';
-import 'flag-icon-css/css/flag-icon.css';
 import '../node_modules/mdi/scss/materialdesignicons.scss';
+import * as d3 from 'd3';
 
 import App from './App.vue';
 import router from './router/';
 import store from './stores/store';
-import i18n_messages from './i18n.json';
 
 Vue.config.productionTip = false;
 
 Vue.component('StatusIndicator', StatusIndicator);
-Vue.component('Peity', Peity);
-Vue.component('BulmaChart', BulmaChart);
 Vue.use(VueHighlightJS);
 Vue.use(VueFloatLabel);
 Vue.use(VueResize);
 Vue.use(Fullscreen);
-Vue.use(VueI18n);
 Vue.use(Element, {locale});
 Vue.use(VueLazyload, {
 	preLoad: 1.3,
@@ -64,10 +54,7 @@ Vue.use(VueLazyload, {
 Vue.use(Vuebar);
 Vue.component('vue-scroll', VuePerfectScrollbar);
 
-const i18n = new VueI18n({ locale: 'us', messages:i18n_messages });
-
 new Vue({
-	i18n,
 	router,
 	store,
 	render: h => h(App)

@@ -19,24 +19,10 @@ export default {
 			notifications: [
 				{
 					id: 1,
-					title: 'New order',
+					title: 'No notifications',
 					icon: 'mdi mdi-cart-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
+					desc: 'No new notifications.',
 					date: 'Just now!'
-				},
-				{
-					id: 2,
-					title: 'New Schedule Realease',
-					icon: 'mdi mdi-calendar',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: '2 Min Ago'
-				},
-				{
-					id: 3,
-					title: 'New message from David',
-					icon: 'mdi mdi-email-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: '30 Min Ago'
 				}
 			]
 		}

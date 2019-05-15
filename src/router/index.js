@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 //apps
 import Dashboard from '../views/apps/Dashboard.vue'
+import FocusGroup from '../views/apps/FocusGroup.vue';
 
 //pages
 import Login from '../views/pages/authentication/Login.vue'
@@ -35,6 +36,17 @@ const router = new Router({
 				tags: ['app']
 			}
 		},
+        {
+            path: '/focus-groups',
+            name: 'focus-groups',
+            component: FocusGroup,
+            meta: {
+                auth: true,
+                layout: layouts.navLeft,
+                searchable: true,
+                tags: ['app']
+            }
+        },
         {
             path: '/users',
             name: 'users',
@@ -153,7 +165,7 @@ router.beforeEach((to, from, next) => {
 		}
 	} else {
 		if(auth.loggedIn() && to.name === 'login'){
-			window.location.href = '/'
+			window.location.href = '/';
 			return false
 		} else {
 			next()
