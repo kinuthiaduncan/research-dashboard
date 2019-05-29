@@ -14,8 +14,6 @@ import NotFound from '../views/pages/NotFound.vue'
 import Users from '../components/Admin/Users.vue'
 
 //ui
-
-import element from './element'
 import layouts from '../layout'
 import store from '../stores/store';
 
@@ -58,7 +56,6 @@ const router = new Router({
                 tags: ['pages']
             }
         },
-		element,
 		{
 			path: '/profile',
 			name: 'profile',

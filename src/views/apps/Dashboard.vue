@@ -1,80 +1,7 @@
 <template>
 	<vue-scroll class="page-dashboard">
 		<resize-observer @notify="__resizeHanlder" />
-		<el-row class="mt-0" :gutter="30">
-			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-account-multiple accent-text fs-30"></i>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Participants</div>
-								<h2 class="m-0 text-truncate">{{participantCount}}</h2>
-							</div>
-						</div>
-					</div>
 
-					<!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80 }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 11, 12, 13, 12, 12, 14].toString()"/>-->
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-eye accent-text fs-30"></i>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Age groups</div>
-							</div>
-						</div>
-					</div>
-					<div class="age-groups">
-						<p v-for="ageGroup in ageGroups">{{ageGroup.join(": ")}}</p>
-					</div>
-					<!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#c6d9fd"] }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 7, 6, 5, 12, 10, 9].toString()"/>-->
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-account-convert success-text fs-30"></i>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Internet use</div>
-								<h2 class="m-0 text-truncate"></h2>
-							</div>
-						</div>
-					</div>
-
-					<!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80, fill: "#56f19a", stroke: "#67C23A" }' :data="[10, 7, 8, 5, 4, 9, 3, 4, 6, 5, 4, 4, 2, 4, 5, 9, 13, 12, 12, 14].toString()"/>-->
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-cash-multiple success-text fs-30"></i>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Tech level</div>
-								<h2 class="m-0 text-truncate"></h2>
-							</div>
-						</div>
-					</div>
-
-					<!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#56f19a"] }' :data="[6, 5, 4, 3, 5, 3, 4, 5, 6, 5, 4, 2, 3, 8, 7, 6, 5, 2, 1, 5].toString()"/>-->
-				</div>
-			</el-col>
-		</el-row>
 
 		<el-row class="mt-0" :gutter="30">
 			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
@@ -169,13 +96,7 @@ export default {
             ],
 			radio1: 'Month',
 			radio2: 'Week',
-            all_participants: "dashboard/all_participants",
-            participantCount: null,
-            age_group_url: "dashboard/group_by_age",
-            ageGroups: [],
-            gender_age_group_url: "focus_groups/gender_age_group",
-            internet_use_age_url: "focus_groups/use_age_group",
-            internetUseAgeGroup: []
+
 		}
 	},
 	computed: {
@@ -184,34 +105,7 @@ export default {
 		}
 	},
 	methods: {
-        getAllParticipants: function () {
-            this.$http.get(this.all_participants).then(response => {
-                this.participantCount = response.data.participantCount;
-            }).catch(error => {
-                console.log(error);
-            })
-        },
-        getAgeGroups: function () {
-            this.$http.get(this.age_group_url).then(response => {
-                this.ageGroups = response.data.ageGroups;
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-        genderAgeGroups: function () {
-            this.$http.get(this.gender_age_group_url).then(response => {
-            }).catch(error => {
-                console.log(error);
-            })
-        },
-        internetUsageAgeGroups: function() {
-            this.$http.get(this.internet_use_age_url).then(response => {
-                this.internetUseAgeGroup = response.data.data;
-                this.initChart1(this.internetUseAgeGroup);
-            }).catch(error => {
-                console.log(error);
-            })
-        },
+
 		__resizeHanlder: _.throttle(function (e) {
 			if(this.resized) {			
 
@@ -263,10 +157,6 @@ export default {
     },
     mounted: function () {
         this.initChart2();
-        this.genderAgeGroups();
-        this.getAgeGroups();
-        this.getAllParticipants();
-        this.internetUsageAgeGroups();
     },
     beforeDestroy: function () {
         this.destroyChart1();
