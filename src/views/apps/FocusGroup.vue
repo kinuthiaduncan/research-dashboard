@@ -19,7 +19,6 @@
                         <h1 class="mt-0 mb-0">{{participantCount}}</h1>
                         <p>Total participants</p>
                     </div>
-                    <!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80 }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 11, 12, 13, 12, 12, 14].toString()"/>-->
                 </div>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -43,7 +42,6 @@
                             </tr>
                         </table>
                     </div>
-                    <!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#c6d9fd"] }' :data="[1, 3, 2, 4, 4, 9, 3, 4, 6, 5, 4, 6, 9, 8, 7, 6, 5, 12, 10, 9].toString()"/>-->
                 </div>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -68,7 +66,6 @@
                             </tr>
                         </table>
                     </div>
-                    <!--<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80, fill: "#56f19a", stroke: "#67C23A" }' :data="[10, 7, 8, 5, 4, 9, 3, 4, 6, 5, 4, 4, 2, 4, 5, 9, 13, 12, 12, 14].toString()"/>-->
                 </div>
             </el-col>
             <el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
@@ -77,7 +74,7 @@
                     <div class="widget-header ph-20 pt-20">
                         <div class="flex justify-center align-center">
                             <div class="widget-icon-box mr-20 animated fadeInRight">
-                                <i class="widget-icon mdi mdi-cash-multiple success-text fs-30"></i>
+                                <i class="widget-icon mdi mdi-account-multiple accent-text fs-20"></i>
                             </div>
                             <div class="widget-info box grow text-truncate animated fadeInLeft">
                                 <div class="o-050 widget-title text-truncate pt-5 pb-10">Tech level</div>
@@ -93,8 +90,6 @@
                             </tr>
                         </table>
                     </div>
-
-                    <!--<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#56f19a"] }' :data="[6, 5, 4, 3, 5, 3, 4, 5, 6, 5, 4, 2, 3, 8, 7, 6, 5, 2, 1, 5].toString()"/>-->
                 </div>
             </el-col>
         </el-row>
@@ -104,9 +99,11 @@
                 <div class="card-base card-shadow--medium bg-accent p-20" style="height:400px" v-loading="!asyncChart1">
                     <h1 class="white-text mv-0 animated fadeInDown">Findings</h1>
                     <div class="chart-controls">
-                        
+                        <button class="btn-sm btn-success" @click="internetUsageAgeGroups()">Internet use</button>
+                        <button class="btn-sm btn-success" @click="vpnAge()">VPN use</button>
+                        <button class="btn-sm btn-success" @click="smartDNSAge()">Smart DNS use</button>
                     </div>
-                    <div id="groups-chart" style="height:300px; width:100%"></div>
+                    <bar-chart :chartTitle="chartTitle" :graph="graph" :yAxisData1="yAxisData1"></bar-chart>
                 </div>
             </el-col>
         </el-row>
@@ -115,14 +112,18 @@
 </template>
 
 <script>
-    import * as echarts from 'echarts';
+    import BarChart from '../pages/BarChart.vue';
     export default {
         name: "FocusGroup",
+        components: {
+           BarChart
+        },
         data: function () {
             return {
-                test_url: "focus_groups/vpn_age",
+                vpn_age_url: "focus_groups/vpn_age",
                 vpnYesAgeUsers: [],
                 vpnNoAgeUsers: [],
+                vpnNoIdeaAgeUsers: [],
                 graphData: [],
                 all_participants: "focus_groups/all_participants",
                 participantCount: null,
@@ -137,8 +138,7 @@
                 resized: false,
                 asyncComponent: 'peity',
                 asyncChart1: true,
-                focusGroupChart: null,
-                chartTitle: '',
+                chartTitle: 'defaultValue',
                 yHolder: [],
                 graph: {
                     xAxis: {
@@ -148,19 +148,18 @@
                         name: ''
                     },
                     series: []
-                }
+                },
+                dns_age_url: "focus_groups/smart_dns_age",
+                dnsYesAgeUsers: [],
+                dnsNoAgeUsers: [],
+                dnsNoIdeaAgeUsers:[]
             }
         },
         computed: {
             yAxisData1: function() {
                 let tempHolder = [];
-                if(this.yHolder.length > 1) {
-                    for (let i = 0; i < this.yHolder.length; i++) {
-                        tempHolder = tempHolder.concat(this.yHolder[i])
-                    }
-                }
-                else {
-                    tempHolder = this.yHolder;
+                for (let i = 0; i < this.yHolder.length; i++) {
+                    tempHolder = tempHolder.concat(this.yHolder[i])
                 }
                 return [...new Set(tempHolder.map(p => p))];
             }
@@ -195,8 +194,36 @@
                 })
             },
             internetUsageAgeGroups: function () {
+                this.chartTitle = "Internet usage vs Age Groups";
+                this.graph.xAxis.name = "Usage (out of 10)";
+                this.graph.yAxis.name = "Age Groups";
+                this.graph.series = [];
+                this.yHolder = [];
                 this.$http.get(this.internet_use_age_url).then(response => {
                     this.internetUseAgeGroup = response.data.data;
+                    let shoppingHolder = [];
+                    let educationHolder = [];
+                    let entertainmentHolder = [];
+                    let socialHolder = [];
+                    let newsHolder = [];
+                    let workingHolder = [];
+                    if(Object.keys(this.internetUseAgeGroup).length) {
+                        for(let items in this.internetUseAgeGroup) {
+                            this.yHolder.push(items);
+                            shoppingHolder.push(this.internetUseAgeGroup[items].shopping);
+                            educationHolder.push(this.internetUseAgeGroup[items].education);
+                            entertainmentHolder.push(this.internetUseAgeGroup[items].entertainment);
+                            socialHolder.push(this.internetUseAgeGroup[items].social);
+                            newsHolder.push(this.internetUseAgeGroup[items].news);
+                            workingHolder.push(this.internetUseAgeGroup[items].working);
+                           }
+                        this.graph.series.push({name: 'shopping', type: 'bar', data: shoppingHolder});
+                        this.graph.series.push({name: 'education', type: 'bar', data: educationHolder});
+                        this.graph.series.push({name: 'entertainment', type: 'bar', data: entertainmentHolder});
+                        this.graph.series.push({name: 'social', type: 'bar', data: socialHolder});
+                        this.graph.series.push({name: 'news', type: 'bar', data: newsHolder});
+                        this.graph.series.push({name: 'working', type: 'bar', data: workingHolder});
+                    }
                 }).catch(error => {
                     console.log(error);
                 })
@@ -206,31 +233,55 @@
                 this.graph.xAxis.name = "Participants";
                 this.graph.yAxis.name = "Age Groups";
                 this.graph.series = [];
-                this.$http.get(this.test_url + '/' + "Yes").then(response => {
+                this.yHolder = [];
+                this.$http.get(this.vpn_age_url + '/' + "Yes").then(response => {
                     this.vpnYesAgeUsers = response.data.data;
                     let vpnYesHolder = [];
                     if(Object.keys(this.vpnYesAgeUsers).length) {
                         Object.keys(this.vpnYesAgeUsers).forEach(key => {
                             this.yHolder.push(Object.keys(this.vpnYesAgeUsers[key]));
                         });
-                        for (let item in this.vpnYesAgeUsers["Yes"]) {
-                            vpnYesHolder.push(this.vpnYesAgeUsers["Yes"][item])
+                        for (let item in this.yAxisData1) {
+                            if(this.vpnYesAgeUsers["Yes"][this.yAxisData1[item]])
+                                vpnYesHolder.push(this.vpnYesAgeUsers["Yes"][this.yAxisData1[item]]);
+                            else
+                                vpnYesHolder.push(0)
                         }
                         this.graph.series.push({name: 'Yes', type: 'bar', data: vpnYesHolder});
                     }
-                    this.$http.get(this.test_url + '/' + "No").then(response => {
+                    this.$http.get(this.vpn_age_url + '/' + "I have no idea what this is").then(response => {
+                        this.vpnNoIdeaAgeUsers = response.data.data;
+                        let vpnNoIdeaHolder = [];
+                        if(Object.keys(this.vpnNoIdeaAgeUsers).length) {
+                            Object.keys(this.vpnNoIdeaAgeUsers).forEach(key => {
+                                this.yHolder.push(Object.keys(this.vpnNoIdeaAgeUsers[key]))
+                            });
+                            for (let item in this.yAxisData1) {
+                                if(this.vpnNoIdeaAgeUsers["I have no idea what this is"][this.yAxisData1[item]])
+                                    vpnNoIdeaHolder.push(this.vpnNoIdeaAgeUsers["I have no idea what this is"][this.yAxisData1[item]]);
+                                else
+                                    vpnNoIdeaHolder.push(0)
+                            }
+                            this.graph.series.push({name: 'No Idea', type: 'bar', data: vpnNoIdeaHolder });
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                    this.$http.get(this.vpn_age_url + '/' + "No").then(response => {
                         this.vpnNoAgeUsers = response.data.data;
                         let vpnNoHolder = [];
                         if(Object.keys(this.vpnNoAgeUsers).length) {
                             Object.keys(this.vpnNoAgeUsers).forEach(key => {
                                 this.yHolder.push(Object.keys(this.vpnNoAgeUsers[key]))
                             });
-                            for (let item in this.vpnNoAgeUsers["No"]) {
-                                vpnNoHolder.push(this.vpnNoAgeUsers["No"][item]);
+                            for (let item in this.yAxisData1) {
+                                if(this.vpnNoAgeUsers["No"][this.yAxisData1[item]])
+                                    vpnNoHolder.push(this.vpnNoAgeUsers["No"][this.yAxisData1[item]]);
+                                else
+                                    vpnNoHolder.push(0)
                             }
                             this.graph.series.push({name: 'No', type: 'bar', data: vpnNoHolder });
                         }
-                        this.plotGraph();
                     }).catch(error => {
                         console.log(error);
                     });
@@ -238,41 +289,57 @@
                     console.log(error);
                 })
             },
-
-            plotGraph: function () {
-                this.focusGroupChart = echarts.init(document.getElementById('groups-chart'));
-                console.log(this.graph.series);
-                this.focusGroupChart.setOption({
-                    title: {
-                        text: this.chartTitle
-                    },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow'
+            smartDNSAge: function() {
+                this.chartTitle = "Smart DNS usage vs Age Groups";
+                this.graph.xAxis.name = "Participants";
+                this.graph.yAxis.name = "Age Groups";
+                this.graph.series = [];
+                this.yHolder = [];
+                this.$http.get(this.dns_age_url + '/' + "Yes").then(response => {
+                    this.dnsYesAgeUsers = response.data.data;
+                    let dnsYesHolder = [];
+                    if(Object.keys(this.dnsYesAgeUsers).length) {
+                        Object.keys(this.dnsYesAgeUsers).forEach(key => {
+                            this.yHolder.push(Object.keys(this.dnsYesAgeUsers[key]));
+                        });
+                        for (let item in this.dnsYesAgeUsers["Yes"]) {
+                            dnsYesHolder.push(this.dnsYesAgeUsers["Yes"][item])
                         }
-                    },
-                    xAxis: {
-                        type: 'value',
-                        name: this.graph.xAxis.name
-                    },
-                    yAxis: {
-                        type: 'category',
-                        name: this.graph.yAxis.name,
-                        inverse: true,
-                        data: this.yAxisData1,
-                        axisLabel: {
-                            margin: 20,
-                            rich: {
-                                value: {
-                                    lineHeight: 30,
-                                    align: 'center'
-                                },
+                        this.graph.series.push({name: 'Yes', type: 'bar', data: dnsYesHolder});
+                    }
+                    this.$http.get(this.dns_age_url + '/' + "I have no idea what this is").then(response => {
+                        this.dnsNoIdeaAgeUsers = response.data.data;
+                        let dnsNoIdeaHolder = [];
+                        if(Object.keys(this.dnsNoIdeaAgeUsers).length) {
+                            Object.keys(this.dnsNoIdeaAgeUsers).forEach(key => {
+                                this.yHolder.push(Object.keys(this.dnsNoIdeaAgeUsers[key]))
+                            });
+                            for (let item in this.dnsNoIdeaAgeUsers["I have no idea what this is"]) {
+                                dnsNoIdeaHolder.push(this.dnsNoIdeaAgeUsers["I have no idea what this is"][item]);
                             }
+                            this.graph.series.push({name: 'No Idea', type: 'bar', data: dnsNoIdeaHolder });
                         }
-                    },
-                    series: this.graph.series
-                });
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                    this.$http.get(this.dns_age_url + '/' + "No").then(response => {
+                        this.dnsNoAgeUsers = response.data.data;
+                        let dnsNoHolder = [];
+                        if(Object.keys(this.dnsNoAgeUsers).length) {
+                            Object.keys(this.dnsNoAgeUsers).forEach(key => {
+                                this.yHolder.push(Object.keys(this.dnsNoAgeUsers[key]))
+                            });
+                            for (let item in this.dnsNoAgeUsers["No"]) {
+                                dnsNoHolder.push(this.dnsNoAgeUsers["No"][item]);
+                            }
+                            this.graph.series.push({name: 'No', type: 'bar', data: dnsNoHolder });
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                    });
+                }).catch(error => {
+                    console.log(error);
+                })
             },
             __resizeHanlder: _.throttle(function (e) {
                 if(this.resized) {
@@ -284,12 +351,11 @@
         },
 
         mounted: function () {
-            this.vpnAge();
             this.genderAgeGroups();
             this.getAgeGroups();
             this.getAllParticipants();
             this.getTechAgeGroups();
-            this.internetUsageAgeGroups();
+            this.vpnAge();
         }
 
     }
@@ -316,9 +382,6 @@
                 font-weight: bold;
             }
         }
-
-
-
         .badge-box {
             .badge {
                 display: inline-block;
