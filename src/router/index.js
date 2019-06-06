@@ -4,6 +4,7 @@ import Router from 'vue-router'
 //apps
 import Dashboard from '../views/apps/Dashboard.vue'
 import FocusGroup from '../views/apps/FocusGroup.vue';
+import Censorship from '../views/apps/Censorship.vue';
 
 //pages
 import Login from '../views/pages/authentication/Login.vue'
@@ -38,6 +39,17 @@ const router = new Router({
             path: '/focus-groups',
             name: 'focus-groups',
             component: FocusGroup,
+            meta: {
+                auth: true,
+                layout: layouts.navLeft,
+                searchable: true,
+                tags: ['app']
+            }
+        },
+        {
+            path: '/censorship',
+            name: 'censorship',
+            component: Censorship,
             meta: {
                 auth: true,
                 layout: layouts.navLeft,

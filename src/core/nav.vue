@@ -16,6 +16,9 @@
 		<el-menu-item index="/focus-groups">
 			<i class="mdi mdi-account-group"></i><span slot="title">Focus Groups</span>
 		</el-menu-item>
+		<el-menu-item index="/censorship">
+			<i class="mdi mdi-sign-caution"></i><span slot="title">Censorship</span>
+		</el-menu-item>
 		<div class="el-menu-item-group__title"><span>Pages</span></div>
 		<el-menu-item index="/profile">
 			<i class="mdi mdi-account-card-details"></i><span slot="title">Profile</span>
