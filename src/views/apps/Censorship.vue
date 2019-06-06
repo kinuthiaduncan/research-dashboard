@@ -3,17 +3,30 @@
         <resize-observer @notify="__resizeHanlder" />
         <el-row class="mt-0" :gutter="30">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <div class="chart-controls">
-                    <form class="el-form demo-form-inline el-form--inline">
-                        <input type="text" v-model="form.keyword" placeholder="keyword" class="el-form-item"/>
-                        <select v-model="form.geo" placeholder="country" class="el-form-item">
-                            <option value="KE">Kenya</option>
-                            <option value="UG">Uganda</option>
-                            <option value="TZ">Tanzania</option>
-                        </select>
-                        <button type="button" class="el-button animated fadeInRight el-button--primary" @click="interestOverTime">Search</button>
-                    </form>
-                </div>
+                <el-form ref="form" :model="form" label-width="120px">
+                    <el-row class="censorship">
+                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+                            <el-form-item>
+                                <el-input v-model="form.keyword" placeholder="keyword"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+                            <el-form-item>
+                                <el-select v-model="form.geo" placeholder="country">
+                                    <el-option label="Kenya" value="KE"></el-option>
+                                    <el-option label="Uganda" value="UG"></el-option>
+                                    <el-option label="Tanzania" value="TZ"></el-option>
+                                    <el-option label="Rwanda" value="RW"></el-option>
+                                    <el-option label="DR Congo" value="CD"></el-option>
+                                    <el-option label="South Sudan" value="SS"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" style="text-align: center;">
+                            <button type="button" class="el-button animated fadeInRight el-button--primary" @click="interestOverTime">Search</button>
+                        </el-col>
+                    </el-row>
+                </el-form>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="card-base card-shadow--medium bg-accent p-20" style="height:400px" v-loading="!asyncChart1">
@@ -79,10 +92,12 @@
                         console.log(error);
                     })
                 }
+                else {
+                    this.$message.error('Enter a valid keyword and select a country');
+                }
 
             },
             plotData: function() {
-                let test = [];
                 this.graph.series[0].data = [];
                 this.chartTitle = this.form.geo+" VPN Google Trends vs Internet Disruptions";
                 this.graph.xAxis.name = "Timeline";
@@ -108,6 +123,10 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .censorship {
+        .el-form-item__content {
+            margin-left: 1px !important;
+        }
+    }
 </style>

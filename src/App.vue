@@ -57,7 +57,7 @@
 
 		<Footer v-if="footer === 'above'" :position="footer"/>
 
-		<layout-picker :position="navPos" v-if="isLogged"/>
+		<!--<layout-picker :position="navPos" v-if="isLogged"/>-->
 	</div>
 </template>
 
@@ -70,7 +70,7 @@ import HorizontalNav from '@/core/horizontal-nav.vue'
 import VerticalNav from '@/core/vertical-nav.vue'
 import Toolbar from '@/core/toolbar.vue'
 import Footer from '@/core/footer.vue'
-import LayoutPicker from '@/components/layout-picker.vue'
+// import LayoutPicker from '@/components/layout-picker.vue'
 
 export default {
 	name: 'App',
@@ -125,8 +125,8 @@ export default {
 		HorizontalNav,
 		VerticalNav,
 		Toolbar,
-		Footer,
-		LayoutPicker
+		Footer
+		// LayoutPicker
 	},
 	created() {
 		if(browser.name)

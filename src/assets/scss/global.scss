@@ -117,7 +117,14 @@ html, body {
 		}
 	}
 }
-
+.censorship {
+  .el-form-item__content {
+    margin-left: 1px !important;
+  }
+  .el-select{
+    width: 100% !important;
+  }
+}
 
 /*@media (max-width: 768px) {
 	.page-header:not(.card-base) {

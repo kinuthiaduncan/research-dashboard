@@ -40,7 +40,6 @@
         },
         methods: {
             plot: function () {
-                console.log(this.graph);
                 let trendsChart;
                 trendsChart = echarts.init(document.getElementById('trends-chart'));
                 let option = {
