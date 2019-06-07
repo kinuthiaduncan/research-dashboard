@@ -124,9 +124,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .censorship {
-        .el-form-item__content {
-            margin-left: 1px !important;
-        }
-    }
+
 </style>

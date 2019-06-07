@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import Dashboard from '../views/apps/Dashboard.vue'
 import FocusGroup from '../views/apps/FocusGroup.vue';
 import Censorship from '../views/apps/Censorship.vue';
+import OTT from '../views/apps/OTT.vue';
 
 //pages
 import Login from '../views/pages/authentication/Login.vue'
@@ -50,6 +51,17 @@ const router = new Router({
             path: '/censorship',
             name: 'censorship',
             component: Censorship,
+            meta: {
+                auth: true,
+                layout: layouts.navLeft,
+                searchable: true,
+                tags: ['app']
+            }
+        },
+        {
+            path: '/ott-tax',
+            name: 'ott',
+            component: OTT,
             meta: {
                 auth: true,
                 layout: layouts.navLeft,
