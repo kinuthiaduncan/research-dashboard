@@ -108,15 +108,26 @@
                 </div>
             </el-col>
         </el-row>
+
+        <el-row class="mt-0" :gutter="30">
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+                <div class="card-base card-shadow--medium mb-30 mt-30 " v-loading="!asyncComponent">
+                    <radar :radar="radar" :indicator="indicator" :radarTitle="radarTitle"></radar>
+                </div>
+            </el-col>
+        </el-row>
+
     </vue-scroll>
 </template>
 
 <script>
     import BarChart from '../pages/BarChart.vue';
+    import Radar from '../pages/Radar.vue';
     export default {
         name: "FocusGroup",
         components: {
-           BarChart
+           BarChart,
+            Radar
         },
         data: function () {
             return {
@@ -156,7 +167,18 @@
                 dns_age_url: "focus_groups/smart_dns_age",
                 dnsYesAgeUsers: [],
                 dnsNoAgeUsers: [],
-                dnsNoIdeaAgeUsers:[]
+                dnsNoIdeaAgeUsers:[],
+                vpn_reason_url: 'focus_groups/vpn_reason',
+                vpnReason: [],
+                radar: {
+                    series: [{
+                        name: '',
+                        type: 'radar',
+                        data: []
+                    }]
+                },
+                radarTitle: '',
+                indicatorHolder: []
             }
         },
         computed: {
@@ -164,6 +186,13 @@
                 let tempHolder = [];
                 for (let i = 0; i < this.yHolder.length; i++) {
                     tempHolder = tempHolder.concat(this.yHolder[i])
+                }
+                return [...new Set(tempHolder.map(p => p))];
+            },
+            indicator: function () {
+                let tempHolder = [];
+                for (let i = 0; i < this.indicatorHolder.length; i++) {
+                    tempHolder = tempHolder.concat(this.indicatorHolder[i])
                 }
                 return [...new Set(tempHolder.map(p => p))];
             }
@@ -355,6 +384,18 @@
                     console.log(error);
                 })
             },
+            usageReasons: function() {
+                this.radarTitle = "test";
+                this.$http.get(this.vpn_reason_url).then(response => {
+                    this.vpnReason = response.data;
+                    let dataHolder = [];
+                    for(let item in this.vpnReason){
+                        this.indicatorHolder.push({name: item, max: this.vpnReason[item] + 200});
+                        dataHolder.push(this.vpnReason[item]);
+                    }
+                    this.radar.series[0].data.push({value: dataHolder, name: 'test'});
+                })
+            },
             __resizeHanlder: _.throttle(function (e) {
                 if(this.resized) {
                     this.asyncComponent = null;
@@ -370,6 +411,7 @@
             this.getAllParticipants();
             this.getTechAgeGroups();
             this.vpnAge();
+            this.usageReasons();
         }
 
     }
