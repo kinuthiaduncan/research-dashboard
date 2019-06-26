@@ -58,11 +58,12 @@
                             type: 'shadow'
                         }
                     },
-                    xAxis: {
+                    legend: this.graph.legend,
+                    yAxis: {
                         type: 'value',
                         name: this.graph.xAxis.name
                     },
-                    yAxis: {
+                    xAxis: {
                         type: 'category',
                         name: this.chartData.yAxis.name,
                         inverse: true,

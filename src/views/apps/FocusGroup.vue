@@ -97,7 +97,7 @@
         <el-row class="mt-0" :gutter="30">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="card-base card-shadow--medium p-20" style="height:400px" v-loading="!asyncChart1">
-                    <h1 class="white-text mv-0 animated fadeInDown">Findings</h1>
+                    <h1 class="mv-0 animated fadeInDown">Findings</h1>
                     <div class="chart-controls">
                         <button class="btn-sm btn-success" @click="internetUsageAgeGroups()">Internet use</button>
                         <button class="btn-sm btn-success" @click="vpnAge()">VPN use</button>
@@ -141,6 +141,10 @@
                 chartTitle: 'defaultValue',
                 yHolder: [],
                 graph: {
+                    legend: {
+                      data: [],
+                        right: 0
+                    },
                     xAxis: {
                         name: '',
                     },
@@ -198,6 +202,7 @@
                 this.graph.xAxis.name = "Usage (out of 10)";
                 this.graph.yAxis.name = "Age Groups";
                 this.graph.series = [];
+                this.graph.legend.data = [];
                 this.yHolder = [];
                 this.$http.get(this.internet_use_age_url).then(response => {
                     this.internetUseAgeGroup = response.data.data;
@@ -217,12 +222,13 @@
                             newsHolder.push(this.internetUseAgeGroup[items].news);
                             workingHolder.push(this.internetUseAgeGroup[items].working);
                            }
-                        this.graph.series.push({name: 'shopping', type: 'bar', data: shoppingHolder});
-                        this.graph.series.push({name: 'education', type: 'bar', data: educationHolder});
-                        this.graph.series.push({name: 'entertainment', type: 'bar', data: entertainmentHolder});
-                        this.graph.series.push({name: 'social', type: 'bar', data: socialHolder});
-                        this.graph.series.push({name: 'news', type: 'bar', data: newsHolder});
-                        this.graph.series.push({name: 'working', type: 'bar', data: workingHolder});
+                        this.graph.legend.data.push('shopping', 'education', 'entertainment', 'social', 'news', 'working');
+                        this.graph.series.push({name: 'shopping', type: 'bar', barGap: 0, data: shoppingHolder});
+                        this.graph.series.push({name: 'education', type: 'bar', barGap: 0, data: educationHolder});
+                        this.graph.series.push({name: 'entertainment', type: 'bar', barGap: 0, data: entertainmentHolder});
+                        this.graph.series.push({name: 'social', type: 'bar', barGap: 0, data: socialHolder});
+                        this.graph.series.push({name: 'news', type: 'bar', barGap: 0, data: newsHolder});
+                        this.graph.series.push({name: 'working', type: 'bar', barGap: 0, data: workingHolder});
                     }
                 }).catch(error => {
                     console.log(error);
@@ -233,6 +239,7 @@
                 this.graph.xAxis.name = "Participants";
                 this.graph.yAxis.name = "Age Groups";
                 this.graph.series = [];
+                this.graph.legend.data = [];
                 this.yHolder = [];
                 this.$http.get(this.vpn_age_url + '/' + "Yes").then(response => {
                     this.vpnYesAgeUsers = response.data.data;
@@ -247,7 +254,8 @@
                             else
                                 vpnYesHolder.push(0)
                         }
-                        this.graph.series.push({name: 'Yes', type: 'bar', data: vpnYesHolder});
+                        this.graph.legend.data.push('Yes');
+                        this.graph.series.push({name: 'Yes', type: 'bar', barGap: 0, data: vpnYesHolder});
                     }
                     this.$http.get(this.vpn_age_url + '/' + "I have no idea what this is").then(response => {
                         this.vpnNoIdeaAgeUsers = response.data.data;
@@ -262,7 +270,8 @@
                                 else
                                     vpnNoIdeaHolder.push(0)
                             }
-                            this.graph.series.push({name: 'No Idea', type: 'bar', data: vpnNoIdeaHolder });
+                            this.graph.legend.data.push('No Idea');
+                            this.graph.series.push({name: 'No Idea', type: 'bar', barGap: 0, data: vpnNoIdeaHolder });
                         }
                     }).catch(error => {
                         console.log(error);
@@ -280,7 +289,8 @@
                                 else
                                     vpnNoHolder.push(0)
                             }
-                            this.graph.series.push({name: 'No', type: 'bar', data: vpnNoHolder });
+                            this.graph.legend.data.push('No');
+                            this.graph.series.push({name: 'No', type: 'bar', barGap: 0, data: vpnNoHolder });
                         }
                     }).catch(error => {
                         console.log(error);
@@ -294,6 +304,7 @@
                 this.graph.xAxis.name = "Participants";
                 this.graph.yAxis.name = "Age Groups";
                 this.graph.series = [];
+                this.graph.legend.data = [];
                 this.yHolder = [];
                 this.$http.get(this.dns_age_url + '/' + "Yes").then(response => {
                     this.dnsYesAgeUsers = response.data.data;
@@ -305,7 +316,8 @@
                         for (let item in this.dnsYesAgeUsers["Yes"]) {
                             dnsYesHolder.push(this.dnsYesAgeUsers["Yes"][item])
                         }
-                        this.graph.series.push({name: 'Yes', type: 'bar', data: dnsYesHolder});
+                        this.graph.legend.data.push('Yes');
+                        this.graph.series.push({name: 'Yes', type: 'bar', barGap: 0, data: dnsYesHolder});
                     }
                     this.$http.get(this.dns_age_url + '/' + "I have no idea what this is").then(response => {
                         this.dnsNoIdeaAgeUsers = response.data.data;
@@ -317,7 +329,8 @@
                             for (let item in this.dnsNoIdeaAgeUsers["I have no idea what this is"]) {
                                 dnsNoIdeaHolder.push(this.dnsNoIdeaAgeUsers["I have no idea what this is"][item]);
                             }
-                            this.graph.series.push({name: 'No Idea', type: 'bar', data: dnsNoIdeaHolder });
+                            this.graph.legend.data.push('No Idea');
+                            this.graph.series.push({name: 'No Idea', type: 'bar', barGap: 0, data: dnsNoIdeaHolder });
                         }
                     }).catch(error => {
                         console.log(error);
@@ -332,7 +345,8 @@
                             for (let item in this.dnsNoAgeUsers["No"]) {
                                 dnsNoHolder.push(this.dnsNoAgeUsers["No"][item]);
                             }
-                            this.graph.series.push({name: 'No', type: 'bar', data: dnsNoHolder });
+                            this.graph.legend.data.push('No');
+                            this.graph.series.push({name: 'No', type: 'bar', barGap: 0, data: dnsNoHolder });
                         }
                     }).catch(error => {
                         console.log(error);
