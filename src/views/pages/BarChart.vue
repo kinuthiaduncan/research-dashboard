@@ -1,5 +1,5 @@
 <template>
-    <div id="groups-chart" style="height:300px; width:100%"></div>
+    <div id="groups-chart" style="height:380px; width:100%"></div>
 </template>
 
 <script>

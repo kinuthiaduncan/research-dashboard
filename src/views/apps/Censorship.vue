@@ -29,7 +29,7 @@
                 </el-form>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <div class="card-base card-shadow--medium bg-accent p-20" style="height:400px" v-loading="!asyncChart1">
+                <div class="card-base card-shadow--medium p-20" style="height:400px" v-loading="!asyncChart1">
                     <h1 class="white-text mv-0 animated fadeInDown">Findings</h1>
                     <line-chart :chartTitle="chartTitle" :graph="graph"></line-chart>
                 </div>

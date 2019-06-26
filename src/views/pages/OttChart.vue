@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="ott-chart" style="height:300px; width:100%"></div>
+        <div id="ott-chart" style="height:400px; width:100%"></div>
         <div v-if="percentageChange" style="text-align: center"><h4>Percentage change</h4><span>{{percentageChange}}%</span></div>
     </div>
 </template>
