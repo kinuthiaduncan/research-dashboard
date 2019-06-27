@@ -110,7 +110,7 @@
         </el-row>
 
         <el-row class="mt-0" :gutter="30">
-            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+            <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                 <div class="card-base card-shadow--medium mb-30 mt-30 " v-loading="!asyncComponent">
                     <radar :radar="radar" :indicator="indicator" :radarTitle="radarTitle"></radar>
                 </div>
@@ -169,13 +169,15 @@
                 dnsNoAgeUsers: [],
                 dnsNoIdeaAgeUsers:[],
                 vpn_reason_url: 'focus_groups/vpn_reason',
+                dns_reason_url: 'focus_groups/dns_reason',
+                dnsReason: [],
                 vpnReason: [],
                 radar: {
-                    series: [{
-                        name: '',
-                        type: 'radar',
-                        data: []
-                    }]
+                    series: [{type: 'radar', data: []}],
+                    legend: {
+                        data: [],
+                        right: 0
+                    },
                 },
                 radarTitle: '',
                 indicatorHolder: []
@@ -385,16 +387,32 @@
                 })
             },
             usageReasons: function() {
-                this.radarTitle = "test";
+                this.radarTitle = "VPN usage";
+               this.radar.legend.data = [];
                 this.$http.get(this.vpn_reason_url).then(response => {
                     this.vpnReason = response.data;
                     let dataHolder = [];
                     for(let item in this.vpnReason){
-                        this.indicatorHolder.push({name: item, max: this.vpnReason[item] + 200});
+                        this.indicatorHolder.push({name: item, max: this.vpnReason[item] + 5});
                         dataHolder.push(this.vpnReason[item]);
                     }
-                    this.radar.series[0].data.push({value: dataHolder, name: 'test'});
-                })
+                    this.radar.legend.data.push('VPN usage');
+                    this.radar.series[0].data.push({value: dataHolder, name: 'VPN usage'});
+                        this.$http.get(this.dns_reason_url).then(response => {
+                            this.dnsReason = response.data;
+                            this.radarTitle += " vs Smart DNS Usage";
+                            let dataHolder = [];
+                            for(let item in this.dnsReason){
+                                dataHolder.push(this.dnsReason[item]);
+                            }
+                            this.radar.legend.data.push('Smart DNS usage');
+                            this.radar.series[0].data.push({value: dataHolder, name: 'Smart DNS usage'});
+                        }).catch(error => {
+                            console.log(error);
+                        });
+                }).catch(error => {
+                    console.log(error);
+                });
             },
             __resizeHanlder: _.throttle(function (e) {
                 if(this.resized) {
