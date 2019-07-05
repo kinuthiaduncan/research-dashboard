@@ -8,10 +8,33 @@
                 </div>
             </el-col>
             <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="padding-left: 0!important;">
-                <div class="card-base card-shadow--medium" style="height:450px; padding: 4px 20px 36px 20px" v-loading="!asyncChart1">
+                <div class="card-base card-shadow--medium p-20" style="height:450px; overflow: auto" v-loading="!asyncChart1">
                     <div v-if="!selectedCountry">Click on a country to view more</div>
                     <div v-else class="country-info">
-                        <p class="selected-title">Selected country: {{selectedCountry}}</p>
+                        <div v-if="countryShutdowns.length">
+                            <table>
+                                <thead>
+                                    <tr class="main-th">
+                                        <th colspan="5">Selected country: {{selectedCountry}}</th>
+                                    </tr>
+                                    <tr class="sub-th">
+                                        <th colspan="5">Total shutdowns reported: {{countryShutdowns.length}}</th>
+                                    </tr>
+                                    <tr class="table-headers">
+                                        <th>Date</th><th>Target</th><th>Type</th><th>Cause</th><th>Source</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="shutdown in countryShutdowns">
+                                        <td class="data">{{shutdown.start_date}}</td>
+                                        <td class="data">{{shutdown.target}}</td>
+                                        <td class="data">{{shutdown.blackout_type}}</td>
+                                        <td class="data">{{shutdown.cause}}</td>
+                                        <td class="action"><a :href="shutdown.source_url" target="_blank"><i class="mdi mdi-eye"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </el-col>
@@ -168,6 +191,8 @@
             getCountryShutdowns: function() {
                 this.$http.get(this.country_shutdowns_url+ '/' + this.countryCode).then(response => {
                     this.countryShutdowns = response.data.data;
+                    console.log(this.countryShutdowns);
+                    this.interestOverTime();
                 }).catch(error => {
                     console.log(error);
                 })

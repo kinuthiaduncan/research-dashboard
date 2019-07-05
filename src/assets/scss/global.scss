@@ -134,11 +134,50 @@ html, body {
 	}
 }
 .country-info {
-  .selected-title {
-    color: #333333;
-    font-weight: bold;
-    font-size: 17px;
-  }
+	table{
+      table-layout: fixed;
+      border-collapse:collapse;
+      width: 100%;
+      tr {
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+      }
+      td.data {
+        width: 23%;
+        font-size: 13px;
+      }
+      td.action {
+        width: 8%;
+        font-size: 13px;
+        text-align: center;
+      }
+      th {
+        background: #dd2c00;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+      tr.main-th{
+        font-size: 16px;
+        text-align: left;
+      }
+      tr.sub-th{
+        text-align: left;
+        font-size: 14px;
+      }
+      tr.table-headers{
+        font-size: 13px;
+        text-align: left;
+      }
+      tbody{
+        tr:nth-child(even) {
+          background-color: #f2f2f2;
+        }
+        tr td{
+          text-align: left;
+        }
+      }
+	}
 }
 /*@media (max-width: 768px) {
 	.page-header:not(.card-base) {
