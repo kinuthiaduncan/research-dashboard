@@ -129,11 +129,17 @@ html, body {
 #geo-map{
 	div {
 		canvas{
-			height: 400px;
+			height: 430px;
 		}
 	}
 }
-
+.country-info {
+  .selected-title {
+    color: #333333;
+    font-weight: bold;
+    font-size: 17px;
+  }
+}
 /*@media (max-width: 768px) {
 	.page-header:not(.card-base) {
 		padding: 0 10px;
