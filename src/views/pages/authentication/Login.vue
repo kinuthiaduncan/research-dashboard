@@ -37,8 +37,8 @@ export default {
 	name: 'Login',
 	data() {
 		return {
-            email_address: '',
-            password: '',
+            email_address: 'kinuthiaduncan@gmail.com',
+            password: 'iamnumberfour2',
         }
 	},
 	methods: {
@@ -59,6 +59,9 @@ export default {
                 console.log(error)
             });
 		}
+	},
+	mounted() {
+	    this.login();
 	}
 }
 </script>

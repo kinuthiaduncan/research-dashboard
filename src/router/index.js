@@ -24,20 +24,21 @@ Vue.use(Router);
 const router = new Router({
 	mode: 'history',
 	routes: [
-		{
-			path: '/',
-			alias: '/dashboard',
-			name: 'dashboard',
-			component: Dashboard,
-			meta: {
-				auth: true,
-				layout: layouts.navLeft,
-				searchable: true,
-				tags: ['app']
-			}
-		},
+		// {
+		// 	path: '/',
+		// 	alias: '/dashboard',
+		// 	name: 'dashboard',
+		// 	component: Dashboard,
+		// 	meta: {
+		// 		auth: true,
+		// 		layout: layouts.navLeft,
+		// 		searchable: true,
+		// 		tags: ['app']
+		// 	}
+		// },
         {
-            path: '/focus-groups',
+            path: '/',
+            alias: '/focus-groups',
             name: 'focus-groups',
             component: FocusGroup,
             meta: {

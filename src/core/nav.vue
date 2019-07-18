@@ -10,9 +10,9 @@
 		:class="{'nav-collapsed':isCollapse}"
 	>
 		<div class="el-menu-item-group__title" style="padding-top: 4px;"><span>Apps</span></div>
-		<el-menu-item index="/dashboard">
-			<i class="mdi mdi-gauge"></i><span slot="title">Dashboard</span>
-		</el-menu-item>
+		<!--<el-menu-item index="/dashboard">-->
+			<!--<i class="mdi mdi-gauge"></i><span slot="title">Dashboard</span>-->
+		<!--</el-menu-item>-->
 		<el-menu-item index="/focus-groups">
 			<i class="mdi mdi-account-group"></i><span slot="title">Focus Groups</span>
 		</el-menu-item>
@@ -22,24 +22,24 @@
 		<el-menu-item index="/ott-tax">
 			<i class="mdi mdi-cash"></i><span slot="title">OTT Tax</span>
 		</el-menu-item>
-		<div class="el-menu-item-group__title"><span>Pages</span></div>
-		<el-menu-item index="/profile">
-			<i class="mdi mdi-account-card-details"></i><span slot="title">Profile</span>
-		</el-menu-item>
-		<el-submenu index="authentication" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-lock"></i><span>Admin</span>
-			</template>
-			<el-menu-item index="/users">
-				<span slot="title">Users</span>
-			</el-menu-item>
+		<!--<div class="el-menu-item-group__title"><span>Pages</span></div>-->
+		<!--<el-menu-item index="/profile">-->
+			<!--<i class="mdi mdi-account-card-details"></i><span slot="title">Profile</span>-->
+		<!--</el-menu-item>-->
+		<!--<el-submenu index="authentication" popper-class="main-navigation-submenu">-->
+			<!--<template slot="title">-->
+				<!--<i class="mdi mdi-lock"></i><span>Admin</span>-->
+			<!--</template>-->
+			<!--<el-menu-item index="/users">-->
+				<!--<span slot="title">Users</span>-->
+			<!--</el-menu-item>-->
 			<!--<el-menu-item index="/register">-->
 				<!--<span slot="title">Register</span>-->
 			<!--</el-menu-item>-->
 			<!--<el-menu-item index="/forgot-password">-->
 				<!--<span slot="title">Forgot Password</span>-->
 			<!--</el-menu-item>-->
-		</el-submenu>
+		<!--</el-submenu>-->
 	</el-menu>	
 </template>
 
