@@ -55,7 +55,7 @@
                 </el-form>
             </el-col>
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <div class="card-base card-shadow--medium p-20" style="height:400px" v-loading="!asyncChart1">
+                <div class="card-base card-shadow--medium p-20" style="height:500px" v-loading="!asyncChart1">
                     <h1 class="white-text mv-0 animated fadeInDown">Findings</h1>
                     <line-chart :chartTitle="chartTitle" :graph="graph"></line-chart>
                 </div>
@@ -65,7 +65,9 @@
 </template>
 
 <script>
-    import moment from 'moment';
+    import Moment from 'moment';
+    import { extendMoment } from 'moment-range';
+    const moment = extendMoment(Moment);
     import LineChart from '../pages/LineChart.vue';
     import * as echarts from 'echarts';
     import $ from 'jquery';
@@ -97,14 +99,16 @@
         computed: {
             graph: function () {
                 return {
-                    xAxis: {
+                    colors: ['#5793f3', '#d14a61', '#675bba'],
+                    xAxis: [{
                         type: 'category',
                         data: []
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{name: 'users', type: 'line', smooth: true, data: [{name: '', value: []}]}],
+                    }],
+                    yAxis: [],
+                    series: [
+                        {name: 'searches', type: 'line', data: []},
+                        {name: 'disruptions', type: 'line', data: []}
+                    ],
                 }
             }
         },
@@ -189,9 +193,23 @@
                 })
             },
             getCountryShutdowns: function() {
+                this.graph.series[1].data = [];
                 this.$http.get(this.country_shutdowns_url+ '/' + this.countryCode).then(response => {
                     this.countryShutdowns = response.data.data;
-                    console.log(this.countryShutdowns);
+                    this.graph.yAxis.push({
+                        type: 'value',
+                        name: 'disruptions',
+                        min: 0,
+                        max: 100,
+                        interval: 5,
+                        position: 'right',
+                        axisLine: {
+                            lineStyle: {
+                                color: this.graph.colors[1]
+                            }
+                        },
+                    });
+
                     this.interestOverTime();
                 }).catch(error => {
                     console.log(error);
@@ -204,7 +222,7 @@
                     let data = {
                         geo: this.countryCode,
                         keyword: this.form.keyword,
-                        startTime: moment().subtract(5, 'years').format('YYYY-MM-DD'),
+                        startTime: moment().subtract(3, 'years').format('YYYY-MM-DD'),
                         endTime: moment().format('YYYY-MM-DD')
                     };
                     this.$http.post(this.google_trends_url, data).then(response => {
@@ -222,17 +240,59 @@
             },
             plotData: function() {
                 this.graph.series[0].data = [];
+                this.graph.series[1].data = [];
+                this.graph.xAxis[0].data = [];
                 this.chartTitle = this.selectedCountry+" VPN Google Trends vs Internet Disruptions";
-                this.graph.xAxis.name = "Timeline";
-                this.graph.yAxis.name = "No. of searches";
+                let startTime = moment().subtract(3, 'years').format('YYYY-MM-DD');
+                let endTime = moment().format('YYYY-MM-DD');
+                const range = moment.range(startTime, endTime);
+                for (let day of range.by('day')) {
+                    this.graph.xAxis[0].data.push(day.format("'YYYY-MM-DD'"));
+                }
+                let disruptionDates = [];
+                let searchDates = [];
+                this.graph.yAxis.push({
+                    type: 'value',
+                    name: 'searches',
+                    min: 0,
+                    max: 100,
+                    interval: 5,
+                    position: 'left',
+                    axisLine: {
+                        lineStyle: {
+                            color: this.graph.colors[0]
+                        }
+                    }
+                });
+
                 for(let i = 0; i < this.google_trends_data.default.timelineData.length; i++) {
                     let date = moment.unix(this.google_trends_data.default.timelineData[i].time).format("'YYYY-MM-DD'");
-                    this.graph.series[0].data.push({
-                            name: date,
-                            value: [date, this.google_trends_data.default.timelineData[i].formattedValue[0]]
-                        }
-                    );
-                    this.graph.xAxis.data.push(new Date(date).toLocaleDateString());
+                    searchDates.push(date);
+                }
+                for(let a = 0; a < this.countryShutdowns.length; a++)
+                {
+                    disruptionDates.push(moment(this.countryShutdowns[a].start_date).format("'YYYY-MM-DD'"));
+                }
+
+                for(let k = 0; k < this.graph.xAxis[0].data.length; k++) {
+                    if(searchDates.includes(this.graph.xAxis[0].data[k])) {
+                        this.google_trends_data.default.timelineData.filter(item => {
+                            if (moment.unix(item.time).format("'YYYY-MM-DD'") === this.graph.xAxis[0].data[k]) {
+                                if(item.formattedValue[0] === "<1") {
+                                    this.graph.series[0].data.push(0);
+                                }
+                                this.graph.series[0].data.push(Number(item.formattedValue[0]));
+                            }
+                        })
+                    } else {
+                        this.graph.series[0].data.push(0);
+                    }
+                    if(disruptionDates.includes(this.graph.xAxis[0].data[k])) {
+                        this.graph.series[1].data.push(100);
+                    }
+                    else {
+                        this.graph.series[1].data.push(0);
+                    }
                 }
             },
             __resizeHanlder: _.throttle(function (e) {

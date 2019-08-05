@@ -1,5 +1,5 @@
 <template>
-    <div id="trends-chart" style="height:400px; width:100%"></div>
+    <div id="trends-chart" style="height:500px; width:100%"></div>
 </template>
 
 <script>
@@ -46,6 +46,7 @@
                     title: {
                         text: this.title
                     },
+                    color: this.graph.colors,
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {
@@ -57,18 +58,11 @@
                             return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
                         },
                     },
-                    xAxis: {
-                        type: this.graph.xAxis.type,
-                        name: this.graph.xAxis.name,
-                        splitLine: {
-                            show: false
-                        }
-                    },
-                    yAxis: {
-                        type: this.graph.yAxis.type
-                    },
+                    xAxis: this.graph.xAxis,
+                    yAxis: this.graph.yAxis,
                     series: this.graph.series
                 };
+                console.log(option);
                 trendsChart.setOption(option, true);
             }
         },
