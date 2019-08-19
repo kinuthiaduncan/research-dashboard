@@ -222,7 +222,7 @@
                     let data = {
                         geo: this.countryCode,
                         keyword: this.form.keyword,
-                        startTime: moment().subtract(3, 'years').format('YYYY-MM-DD'),
+                        startTime: moment().subtract(40, 'months').format('YYYY-MM-DD'),
                         endTime: moment().format('YYYY-MM-DD')
                     };
                     this.$http.post(this.google_trends_url, data).then(response => {
@@ -243,7 +243,7 @@
                 this.graph.series[1].data = [];
                 this.graph.xAxis[0].data = [];
                 this.chartTitle = this.selectedCountry+" VPN Google Trends vs Internet Disruptions";
-                let startTime = moment().subtract(3, 'years').format('YYYY-MM-DD');
+                let startTime = moment().subtract(40, 'months').format('YYYY-MM-DD');
                 let endTime = moment().format('YYYY-MM-DD');
                 const range = moment.range(startTime, endTime);
                 for (let day of range.by('day')) {
@@ -272,8 +272,13 @@
                 for(let a = 0; a < this.countryShutdowns.length; a++)
                 {
                     disruptionDates.push(moment(this.countryShutdowns[a].start_date).format("'YYYY-MM-DD'"));
+                    if (this.countryShutdowns[a].end_date) {
+                        let diff = moment(this.countryShutdowns[a].end_date).diff(moment(this.countryShutdowns[a].start_date), 'days');
+                        for(let i = 0; i < diff; i++) {
+                            disruptionDates.push(moment(this.countryShutdowns[a].start_date).add(i, 'day').format("'YYYY-MM-DD'"))
+                        }
+                    }
                 }
-
                 for(let k = 0; k < this.graph.xAxis[0].data.length; k++) {
                     if(searchDates.includes(this.graph.xAxis[0].data[k])) {
                         this.google_trends_data.default.timelineData.filter(item => {

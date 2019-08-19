@@ -46,6 +46,9 @@
                     title: {
                         text: this.title
                     },
+                    legend: {
+                        show: true,
+                    },
                     color: this.graph.colors,
                     tooltip: {
                         trigger: 'axis',
@@ -62,7 +65,6 @@
                     yAxis: this.graph.yAxis,
                     series: this.graph.series
                 };
-                console.log(option);
                 trendsChart.setOption(option, true);
             }
         },

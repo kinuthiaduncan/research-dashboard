@@ -96,10 +96,10 @@
 
         <el-row class="mt-0" :gutter="30">
             <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-                <div class="card-base card-shadow--medium p-20" style="height:400px" v-loading="!asyncChart1">
+                <div class="card-base card-shadow--medium p-20" style="height:420px" v-loading="!asyncChart1">
                     <h1 class="mv-0 animated fadeInDown">Findings</h1>
                     <div class="chart-controls">
-                        <button class="btn-sm btn-success" @click="internetUsageAgeGroups()">Internet use</button>
+<!--                        <button class="btn-sm btn-success" @click="internetUsageAgeGroups()">Internet use</button>-->
                         <button class="btn-sm btn-success" @click="vpnAge()">VPN use</button>
                         <button class="btn-sm btn-success" @click="smartDNSAge()">Smart DNS use</button>
                     </div>
